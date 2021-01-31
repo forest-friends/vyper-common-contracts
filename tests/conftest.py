@@ -2,7 +2,9 @@ import pytest
 import brownie
 
 pytest_plugins = [
-    "fixtures.accounts"
+    "fixtures.accounts",
+    "fixtures.tokens",
+    "fixtures.multisig",
 ]
 
 
