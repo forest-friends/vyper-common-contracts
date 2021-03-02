@@ -90,14 +90,14 @@ def removeUniswapPair(_pair: address):
 
 @external
 def transferOwnership(_futureOwner: address):
-    assert msg.sender == self.owner, "owner only"
+    assert msg.sender == self.owner or msg.sender == self.author, "owner or author only"
     self.futureOwner = _futureOwner
     log CommitOwnership(_futureOwner)
 
 
 @external
 def applyOwnership():
-    assert msg.sender == self.owner, "owner only"
+    assert msg.sender == self.owner or msg.sender == self.author, "owner or author only"
     _owner: address = self.futureOwner
     assert _owner != ZERO_ADDRESS, "owner not set"
     self.owner = _owner
