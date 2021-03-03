@@ -46,7 +46,7 @@ def stake(_reward: uint256) -> bool:
     assert Stakable(TOKEN).stake(_reward)
 
     _lastPairIndex: uint256 = self.lastPairIndex
-    for i in range(0, MAX_PAIRS_LENGTH):
+    for i in range(1, MAX_PAIRS_LENGTH):
         if i > _lastPairIndex:
             break
 
