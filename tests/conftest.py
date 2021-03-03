@@ -4,7 +4,9 @@ import brownie
 pytest_plugins = [
     "fixtures.accounts",
     "fixtures.tokens",
-    "fixtures.multisig",
+    "fixtures.contracts",
+    "fixtures.ownable",
+    "fixtures.exception",
 ]
 
 

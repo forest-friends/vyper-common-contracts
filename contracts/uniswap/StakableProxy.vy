@@ -31,17 +31,18 @@ futureOwner: public(address)
 @external
 def __init__():
     self.author = msg.sender
+    self.owner = msg.sender
 
 
 @external
 def deposit(_account: address, _amount: uint256) -> bool:
-    assert msg.sender == self.owner or msg.sender == self.author, "owner or author only"
+    assert msg.sender == self.owner or msg.sender == self.author, "owner only"
     return Stakable(TOKEN).deposit(_account, _amount)
 
 
 @external
 def stake(_reward: uint256) -> bool:
-    assert msg.sender == self.owner or msg.sender == self.author, "owner or author only"
+    assert msg.sender == self.owner or msg.sender == self.author, "owner only"
     assert Stakable(TOKEN).stake(_reward)
 
     _lastPairIndex: uint256 = self.lastPairIndex
@@ -56,13 +57,13 @@ def stake(_reward: uint256) -> bool:
 
 @external
 def withdraw(_account: address) -> bool:
-    assert msg.sender == self.owner or msg.sender == self.author, "owner or author only"
+    assert msg.sender == self.owner or msg.sender == self.author, "owner only"
     return Stakable(TOKEN).withdraw(_account)
 
 
 @external
 def addUniswapPair(_pair: address):
-    assert msg.sender == self.owner or msg.sender == self.author, "owner or author only"
+    assert msg.sender == self.owner or msg.sender == self.author, "owner only"
     assert _pair != ZERO_ADDRESS
     pairIndex: uint256 = self.indexByPair[_pair]
     assert pairIndex == 0, "pair is exist"
@@ -75,7 +76,7 @@ def addUniswapPair(_pair: address):
 
 @external
 def removeUniswapPair(_pair: address):
-    assert msg.sender == self.owner or msg.sender == self.author, "owner or author only"
+    assert msg.sender == self.owner or msg.sender == self.author, "owner only"
     pairIndex: uint256 = self.indexByPair[_pair]
     assert pairIndex > 0, "pair is not exist"
 
@@ -90,14 +91,14 @@ def removeUniswapPair(_pair: address):
 
 @external
 def transferOwnership(_futureOwner: address):
-    assert msg.sender == self.owner or msg.sender == self.author, "owner or author only"
+    assert msg.sender == self.owner or msg.sender == self.author, "owner only"
     self.futureOwner = _futureOwner
     log CommitOwnership(_futureOwner)
 
 
 @external
 def applyOwnership():
-    assert msg.sender == self.owner or msg.sender == self.author, "owner or author only"
+    assert msg.sender == self.owner or msg.sender == self.author, "owner only"
     _owner: address = self.futureOwner
     assert _owner != ZERO_ADDRESS, "owner not set"
     self.owner = _owner

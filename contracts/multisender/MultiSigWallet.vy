@@ -1,10 +1,10 @@
 # @version ^0.2.0
 
 
-import interfaces.multisig.MultiSig as MultiSig
+# import interfaces.multisig.MultiSig as MultiSig
 
 
-implements: MultiSig
+# implements: MultiSig
 
 
 MAX_SIGNERS_COUNT: constant(uint256) = 5
