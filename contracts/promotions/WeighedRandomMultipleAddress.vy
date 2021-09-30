@@ -33,6 +33,7 @@ membersLength: public(uint256)
 winnerScores: public(uint256[MAX_MEMBERS])
 winnerScoresCount: public(uint256)
 isLotteryLaunched: public(bool)
+nonce: uint256
 lastRequestId: public(bytes32)
 owner: public(address)
 
@@ -76,13 +77,15 @@ def chooseNextWinner(seed: uint256, keyHash: bytes32, fee: uint256):
     _callRequest: Bytes[64] = concat(keyHash, convert(seed, bytes32))
     LinkToken(self.linkToken).transferAndCall(self.vrfCoordinator, fee, _callRequest)
 
+    _nonce: uint256 = self.nonce
     _vrfSeedRequest: Bytes[128] = concat(
         keyHash,
         convert(seed, bytes32),
         convert(self, bytes32),
-        convert(0, bytes32)
+        convert(_nonce, bytes32)
     )
     _vrfSeed: uint256 = convert(keccak256(_vrfSeedRequest), uint256)
+    self.nonce = _nonce + 1
     self.lastRequestId = keccak256(concat(keyHash, convert(_vrfSeed, bytes32)))
     self.isLotteryLaunched = True
 
